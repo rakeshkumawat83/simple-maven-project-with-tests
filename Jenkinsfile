@@ -121,8 +121,8 @@ environment {
         stage ('Execute & Publish Build Info') {
             steps {
                 rtMavenRun (
-                    //tool: M3, // Tool name from Jenkins configuration
-                    //pom: 'maven-example/pom.xml',
+                    tool: M3, // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
                     goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
                     resolverId: "MAVEN_RESOLVER"
