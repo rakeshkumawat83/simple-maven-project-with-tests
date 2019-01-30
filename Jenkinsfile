@@ -42,7 +42,7 @@ environment {
         // Unit Test using Junit and archive results for analysis
         stage('Unit Test and Archive Results'){
             steps {
-                junit 'target/surefire-reports/TEST-*.xml'
+                junit '**/target/surefire-reports/TEST-*.xml'
      		    archive 'target/*.jar'
             }
         }
