@@ -91,10 +91,46 @@ environment {
             }
 	    }	
 
-        // Artifacts Repository using Artifactory
-        stage('Artifacts Repository'){
+        // Artifactory configuration details
+        stage ('Artifactory configuration') {
             steps {
-                bat 'echo Artifacts Repository using Artifactory...'
+                /*
+                rtServer (
+                    id: "ARTIFACTORY_SERVER",
+                    url: SERVER_URL,
+                    credentialsId: CREDENTIALS
+                ) */
+
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release-local",
+                    snapshotRepo: "libs-snapshot-local"
+                )
+
+                rtMavenResolver (
+                    id: "MAVEN_RESOLVER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release",
+                    snapshotRepo: "libs-snapshot"
+                )
+            }
+        }
+
+        // Execute Mavan & Publish Build Informations
+        stage ('Execute & Publish Build Info') {
+            steps {
+                rtMavenRun (
+                    //tool: M3, // Tool name from Jenkins configuration
+                    //pom: 'maven-example/pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER",
+                    resolverId: "MAVEN_RESOLVER"
+                )
+
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
             }
         }
 
@@ -111,7 +147,5 @@ environment {
                 bat 'echo Deploy code using Configuration Manager...'
             }
         }
-
-
     }
 }
