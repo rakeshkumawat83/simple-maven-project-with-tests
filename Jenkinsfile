@@ -35,7 +35,9 @@ environment {
         // Build reporitory using Maven tool
         stage('Build') { 
             steps { 
-                bat "mvn -Dmaven.test.failure.ignore clean package"
+                //bat "mvn -Dmaven.test.failure.ignore clean package"
+		    bat "mvn clean package"
+		    bat "logstashSend failBuild: true, maxLines: 1000"
             }
         }
 
@@ -47,6 +49,7 @@ environment {
             }
         }
 
+/*	    
         // Automation Testing using selenium or SOAPUI
         stage('Automation Test'){
             parallel {
@@ -87,7 +90,7 @@ environment {
                         error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
                     }
                 }*/
-                bat 'echo SonarQube Quality Gate check...'
+/*                bat 'echo SonarQube Quality Gate check...'
             }
 	    }	
 
@@ -101,7 +104,7 @@ environment {
                     credentialsId: CREDENTIALS
                 ) */
 
-                rtMavenDeployer (
+ /*               rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
                     serverId: "ARTIFACTORY_SERVER",
                     releaseRepo: "libs-release-local",
@@ -146,6 +149,6 @@ environment {
             steps {
                 bat 'echo Deploy code using Configuration Manager...'
             }
-        }
+        } */
     }
 }
