@@ -37,7 +37,7 @@ environment {
             steps { 
                 //bat "mvn -Dmaven.test.failure.ignore clean package"
 		    bat "mvn clean package"
-		    bat "logstashSend failBuild: true, maxLines: 1000"
+		    logstashSend failBuild: true, maxLines: 1000
             }
         }
 
