@@ -35,8 +35,8 @@ environment {
         // Build reporitory using Maven tool
         stage('Build') { 
             steps { 
-                //bat "mvn -Dmaven.test.failure.ignore clean package"
-		    bat "mvn clean package"
+                bat "mvn -Dmaven.test.failure.ignore clean package"
+		//    bat "mvn clean package"
 		    logstashSend failBuild: true, maxLines: 1000
             }
         }
