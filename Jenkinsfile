@@ -38,6 +38,7 @@ environment {
                 bat "mvn -Dmaven.test.failure.ignore clean package"
 		//    bat "mvn clean package"
 		    logstashSend failBuild: true, maxLines: 1000
+		    bat 'echo RESULT: sent logs to elasticsearch.'
             }
         }
 
