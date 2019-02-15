@@ -1,7 +1,7 @@
 /* Declarative pipeline must be enclosed within a pipeline block */
 pipeline { 
     // agent section specifies where the entire Pipeline will execute in the Jenkins environment
-    agent any 
+    agent { label 'Java_jobs' } 
     /**
      * tools to auto-install and put on the PATH
      * some of the supported tools - maven, jdk, gradle
