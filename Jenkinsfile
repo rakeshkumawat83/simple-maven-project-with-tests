@@ -1,7 +1,7 @@
 /* Declarative pipeline must be enclosed within a pipeline block */
 pipeline { 
     // agent section specifies where the entire Pipeline will execute in the Jenkins environment
-    agent { label 'Java_jobs' } 
+    agent { label 'Java_jobs' }
     /**
      * tools to auto-install and put on the PATH
      * some of the supported tools - maven, jdk, gradle
@@ -36,9 +36,6 @@ environment {
         stage('Build') { 
             steps { 
                 bat "mvn -Dmaven.test.failure.ignore clean package"
-		//    bat "mvn clean package"
-		    logstashSend failBuild: true, maxLines: 1000
-		    bat 'echo RESULT: sent logs to elasticsearch.'
             }
         }
 
@@ -50,7 +47,6 @@ environment {
             }
         }
 
-/*	    
         // Automation Testing using selenium or SOAPUI
         stage('Automation Test'){
             parallel {
@@ -91,7 +87,7 @@ environment {
                         error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
                     }
                 }*/
-/*                bat 'echo SonarQube Quality Gate check...'
+                bat 'echo SonarQube Quality Gate check...'
             }
 	    }	
 
@@ -105,7 +101,7 @@ environment {
                     credentialsId: CREDENTIALS
                 ) */
 
- /*               rtMavenDeployer (
+                rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
                     serverId: "ARTIFACTORY_SERVER",
                     releaseRepo: "libs-release-local",
@@ -125,7 +121,7 @@ environment {
         stage ('Execute & Publish Build Info') {
             steps {
                 rtMavenRun (
-                    //tool: M3, // Tool name from Jenkins configuration
+                    tool: M3, // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
@@ -150,6 +146,6 @@ environment {
             steps {
                 bat 'echo Deploy code using Configuration Manager...'
             }
-        } */
+        }
     }
 }
